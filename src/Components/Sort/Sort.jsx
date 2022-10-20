@@ -1,13 +1,17 @@
 import React from 'react';
 
-const Sort = () => {
+const Sort = ({value,onChangeSort}) => {
     const [open,setOpen] = React.useState(false);
-    const [sortParameter,setSortParameter] = React.useState('популярности');
-    const [activeClass,setActiveClass] = React.useState(0)
-    const parameters = ['популярности', 'цене','алфавиту',]
-    function changeParameter(index,parameter){
-        setActiveClass(index);
-        setSortParameter(parameter);
+    const parameters = [
+        {name:`популярности ↑`,sort:'rating'},
+        {name:`популярности ↓`,sort:'-rating'},
+        {name:'цене ↑ ',sort:'price'},
+        {name:'цене ↓',sort:'-price'},
+        {name:'алфавиту ↑',sort:'title'},
+        {name:'алфавиту ↓',sort:'-title'},
+    ]
+    function changeParameter(value){
+        onChangeSort(value);
         setOpen(false)
     }
     return (
@@ -26,7 +30,7 @@ const Sort = () => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setOpen(!open)}>{sortParameter}</span>
+                <span onClick={() => setOpen(!open)}>{value.name}</span>
             </div>
             {
                 open && (
@@ -35,9 +39,9 @@ const Sort = () => {
                             {
                                 parameters.map((parameter,index) => (
                                     <li key={index}
-                                        onClick={() => changeParameter(index,parameter)}
-                                        className={index === activeClass ? 'active':''}>
-                                        {parameter}
+                                        onClick={() => changeParameter(parameter)}
+                                        className={parameter.sort === value.sort ? 'active':''}>
+                                        {parameter.name}
                                     </li>
                                 ))
                             }
@@ -45,7 +49,6 @@ const Sort = () => {
                     </div>
                 )
             }
-
         </div>
     );
 };

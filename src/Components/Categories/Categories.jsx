@@ -1,27 +1,26 @@
 import React from 'react';
 
-const Categories = () => {
-    const [catInx,setCatInx] = React.useState()
+const Categories = ({value,onChangeCategory}) => {
 
 
     const categoriesList =[
-        {index:0,text:'Все'},
-        {index:1,text:'Мясные'},
-        {index:2,text:'Вегетарианская'},
-        {index:3,text:'Гриль'},
-        {index:4,text:'Острые'},
-        {index:5,text:'Закрытые'},
+        {index:0,categoryName:'Все'},
+        {index:1,categoryName:'Мясные'},
+        {index:2,categoryName:'Вегетарианская'},
+        {index:3,categoryName:'Гриль'},
+        {index:4,categoryName:'Острые'},
+        {index:5,categoryName:'Закрытые'},
     ]
     return (
         <div className="categories">
             <ul>
-                {categoriesList.map(({index,text}) =>
+                {categoriesList.map((categoryName,index) =>
 
                     <li key={index}
-                        onClick={() => setCatInx(index)}
-                        className={catInx === index ? 'active' : ''}
+                        onClick={() => onChangeCategory (index)}
+                        className={value === index ? 'active' : ''}
                     >
-                        {text}
+                        {categoryName.categoryName}
                     </li>
                 )}
             </ul>
