@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import logoPiz from '../../assets/img/pizza-logo.svg'
 import {NavLink} from "react-router-dom";
 import Search from "./Searh/Search";
-const Header = ({searchValue,setSearchValue}) => {
+import {useSelector} from "react-redux";
+const Header = () => {
+
+    const {totalPrice,items,cout} = useSelector( state => state.cartSlice)
+    const totalPizza = items.reduce((sum,obj) => sum + obj.cout,0)
+
+
     return (
         <div className="header">
             <div className="container">
@@ -13,10 +19,10 @@ const Header = ({searchValue,setSearchValue}) => {
                         <p>самая вкусная пицца во вселенной</p>
                     </div>
                 </div>
-                <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
+                <Search />
                 <div className="header__cart">
                     <NavLink to={"/card"} className="button button--cart">
-                        <span>520 ₽</span>
+                        <span>{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <svg
                             width="18"
@@ -47,7 +53,7 @@ const Header = ({searchValue,setSearchValue}) => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <span>3</span>
+                        <span>{totalPizza}</span>
                     </NavLink>
                 </div>
             </div>

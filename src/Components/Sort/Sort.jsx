@@ -1,21 +1,36 @@
-import React from 'react';
-
-const Sort = ({value,onChangeSort}) => {
+import React, {useEffect, useRef} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import { setChangeSort} from "../../features/filter/filterSlice";
+import {doc} from "prettier";
+export const parameters = [
+    {name:`популярности ↑`,criteriaSort:'rating'},
+    {name:`популярности ↓`,criteriaSort:'-rating'},
+    {name:'цене ↑ ',criteriaSort:'price'},
+    {name:'цене ↓',criteriaSort:'-price'},
+    {name:'алфавиту ↑',criteriaSort:'title'},
+    {name:'алфавиту ↓',criteriaSort:'-title'},
+]
+const Sort = () => {
     const [open,setOpen] = React.useState(false);
-    const parameters = [
-        {name:`популярности ↑`,sort:'rating'},
-        {name:`популярности ↓`,sort:'-rating'},
-        {name:'цене ↑ ',sort:'price'},
-        {name:'цене ↓',sort:'-price'},
-        {name:'алфавиту ↑',sort:'title'},
-        {name:'алфавиту ↓',sort:'-title'},
-    ]
+    const sortRef = useRef()
+    const sort = useSelector(state => state.filterSlice)
+    const dispatch = useDispatch()
+
     function changeParameter(value){
-        onChangeSort(value);
+        dispatch(setChangeSort(value));
         setOpen(false)
     }
+    useEffect(() => {
+        const closeSortBlock = (e) => {
+            if(!e.path.includes(sortRef.current)){
+                setOpen(false)
+            }
+        }
+       document.body.addEventListener('click',closeSortBlock)
+       return () =>  document.body.removeEventListener('click',closeSortBlock)
+    })
     return (
-        <div  className="sort">
+        <div  ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
@@ -30,7 +45,7 @@ const Sort = ({value,onChangeSort}) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setOpen(!open)}>{value.name}</span>
+                <span onClick={() => setOpen(!open)}>{sort.sort.name}</span>
             </div>
             {
                 open && (
@@ -40,7 +55,8 @@ const Sort = ({value,onChangeSort}) => {
                                 parameters.map((parameter,index) => (
                                     <li key={index}
                                         onClick={() => changeParameter(parameter)}
-                                        className={parameter.sort === value.sort ? 'active':''}>
+                                        className={parameter.criteriaSort === sort.sort.criteriaSort ? 'active':''}
+                                    >
                                         {parameter.name}
                                     </li>
                                 ))

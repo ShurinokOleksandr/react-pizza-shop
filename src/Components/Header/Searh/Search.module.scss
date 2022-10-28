@@ -8,6 +8,15 @@
     &:focus{
       border: 2px solid #808080;
     }
+    @media (max-width: 1200px) {
+      width: 300px;
+    }
+    @media (max-width: 1015px) {
+      width: 200px;
+    }
+    @media (max-width: 880px) {
+      width: 300px;
+    }
   }
   .searchIcon{
     position: absolute;
