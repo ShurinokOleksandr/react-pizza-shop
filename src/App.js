@@ -16,7 +16,7 @@ function App() {
                 <Header />
                 <div className="content">
                     <Routes>
-                        <Route element={<Home/>} path={'/'}/>
+                        <Route element={<Home/>} path={'/react-pizza-shop'}/>
                         <Route element={<Cart/>} path={'/card'}/>
                         <Route element={<NotFound/>} path={'/*'}/>
                     </Routes>

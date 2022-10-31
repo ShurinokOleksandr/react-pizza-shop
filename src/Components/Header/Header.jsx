@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import logoPiz from '../../assets/img/pizza-logo.svg'
 import {NavLink} from "react-router-dom";
 import Search from "./Searh/Search";
 import {useSelector} from "react-redux";
 const Header = () => {
 
-    const {totalPrice,items,cout} = useSelector( state => state.cartSlice)
+    const {totalPrice,items} = useSelector( state => state.cartSlice)
     const totalPizza = items.reduce((sum,obj) => sum + obj.cout,0)
 
 
@@ -15,7 +15,7 @@ const Header = () => {
                 <div className="header__logo">
                     <img width="38" src={logoPiz} alt="Pizza logo" />
                     <div>
-                        <h1><NavLink to={'/'}>React Pizza</NavLink></h1>
+                        <h1><NavLink to={'/react-pizza-shop'}>React Pizza</NavLink></h1>
                         <p>самая вкусная пицца во вселенной</p>
                     </div>
                 </div>

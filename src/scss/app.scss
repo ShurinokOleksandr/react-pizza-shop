@@ -117,7 +117,9 @@ body {
   }
 
   &__clear {
+    background: white;
     display: flex;
+    border: none;
     align-items: center;
     cursor: pointer;
     @include noselect();

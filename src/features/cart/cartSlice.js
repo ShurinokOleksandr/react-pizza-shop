@@ -10,22 +10,8 @@ export  const cartSlice = createSlice({
     name:'cart',
     initialState,
     reducers:{
-        // addItem(state,action){
-        //     const findItemSameId = state.items.find(obj => obj.id === action.payload.id)
-        //     const findItemDifType = state.items.find(obj => obj.type === action.payload.type)
-        //     if(findItemSameId && (findItemSameId.type === findItemDifType)){
-        //         findItemSameId.cout++
-        //     }else{
-        //         state.items.push({
-        //             ...action.payload,cout:1
-        //         })
-        //     }
-        //     state.totalPrice = state.items.reduce(( sum, obj)  => { return sum + (obj.cout * obj.price) } ,0 )
-        // },
         addItem(state,action){
             const findItemSameId = state.items.find(obj => obj.id === action.payload.id)
-            const findItemDifType = state.items.find(obj => obj.type === action.payload.type)
-            console.log(state.items.type)
             if(findItemSameId){
                 findItemSameId.cout++
             }else{
@@ -35,13 +21,23 @@ export  const cartSlice = createSlice({
             }
             state.totalPrice = state.items.reduce(( sum, obj)  => { return sum + (obj.cout * obj.price) } ,0 )
         },
-        removeItem({items},{payload}){
-            items = items.filter(obj => obj.id !== payload)
+        minusItem(state,action){
+            const findItemSameId = state.items.find(obj => obj.id === action.payload.id)
+            if(findItemSameId){
+                findItemSameId.cout--
+            }
+            state.totalPrice = state.items.reduce(( sum, obj)  => { return sum + (obj.cout * obj.price) } ,0 )
+        }
+        ,
+        removeItem(state,action){
+            state.items = state.items.filter(obj => obj.id !== action.payload)
+            state.totalPrice = state.items.reduce(( sum, obj)  => { return sum + (obj.cout * obj.price) } ,0 )
         },
-        clearItems({items}){
-            items=[]
+        clearItems(state){
+            state.items=[]
+            state.totalPrice=0
         }
     }
 })
-export const {addItem, removeItem, clearItems } = cartSlice.actions
+export const {addItem, removeItem, clearItems,minusItem } = cartSlice.actions
 export default cartSlice.reducer
